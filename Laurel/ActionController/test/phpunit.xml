@@ -1,0 +1,11 @@
+<phpunit bootstrap="bootstrap.php">
+
+  <testsuites>
+    <testsuite name="ActionController">
+      <file>unit/ControllerTest.php</file>
+      <file>unit/HelperRegistryTest.php</file>
+      <file>unit/TemplateRegistryTest.php</file>
+    </testsuite>
+  </testsuites>
+
+</phpunit>

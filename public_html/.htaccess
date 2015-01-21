@@ -1,0 +1,26 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+
+<IfModule mod_rewrite.c>
+	RewriteCond %{REQUEST_METHOD} POST
+	RewriteCond %{HTTP_REFERER} !^http://(.*)\.vandise\.com(.*) [NC]
+	RewriteRule .* - [F,L]
+</IfModule>
+
+
+RewriteCond %{REQUEST_URI} \.(php|hh)$
+RewriteRule ^(.*) fcgi://127.0.0.1:9000/var/www/intelligence/public_html/$1 [L,P,QSA]
+
+RewriteCond %{QUERY_STRING}index.php -f
+RewriteRule (.*) fcgi://127.0.0.1:9000/var/www/intelligence/public_html/$1/index.php [L,P]
+
+#RewriteCond %{DOCUMENT_ROOT}%{QUERY_STRING}index.php !-f
+RewriteCond %{DOCUMENT_ROOT}}%{QUERY_STRING} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !\.(css|js|jpg|png)$
+RewriteRule ^(.*)$ fcgi://127.0.0.1:9000/var/www/intelligence/public_html/index.php?/$1 [L,P,QSA]
+
+
+
+
