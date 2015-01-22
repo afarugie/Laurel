@@ -18,4 +18,5 @@ require_once 'ActionController/ActionController.inc.php';
 require_once 'ActionView/ActionView.inc.php';
 require_once 'ActiveRecord/ActiveRecord.php';
 require_once CONFIG_PATH.'/routes.php';
+require_once 'Core/Core.functions.php';
 

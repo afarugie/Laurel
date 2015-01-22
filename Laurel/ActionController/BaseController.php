@@ -21,7 +21,7 @@ abstract class BaseController
         $helpers = null,
         $router=false
     ) {
-        $this->data = (object) array();
+        $this->data = array();
         $this->view_registry = $view_registry;
         $this->layout_registry = $layout_registry;
         if ($helpers && ! is_object($helpers)) {

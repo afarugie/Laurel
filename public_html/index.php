@@ -91,11 +91,18 @@ try
 		$controller->action = $route->params['action'];
 		
 		
-		echo $controller->__invoke(isset($route->params['module']) ? true : false);
+		echo $controller->__invoke();
 	
 	}
 	else
 	{
+		//
+		// Throw internal error for testing purposes
+		//
+		if(DEBUG_MODE)
+		{
+			throw new RouteNotFound('No Route Matching '.$_SERVER['REQUEST_URI'].' Was Found.');
+		}
 		
 		header("HTTP/1.1 404 Not Found");
 		
@@ -112,32 +119,30 @@ try
 		$action = ERROR404_METHOD;
 		$controller->$action();
 		
-		echo $controller->__invoke(false);
+		echo $controller->__invoke();
 	
 	}
 }
 catch(Exception $e)
 {	
-
-
 		//
-		// Internal Server Error - 404 page for now
+		// INTERNAL SERVER ERROR
 		//
 		
-		header("HTTP/1.1 404 Not Found");
-		
-		$controller = ERROR404_CONTROLLER.'Controller';
+		$controller = INTERNAL_CONTROLLER.'Controller';
 		require_once CONTROLLER_PATH.'/'.$controller .'.php';
 		
 		$controller = new $controller($view_registry,$layout_registry,$helper);
-		$controller->setView('laurel.404');
-		$controller->setLayout(ERROR404_TEMPLATE);
+		$controller->setView('laurel.internal');
+		$controller->setLayout(INTERNAL_ERROR_TEMPLATE);
 		
-		$action = ERROR404_METHOD;
+		$controller->error = $e;
+		
+		$action = INTERNAL_ERROR_METHOD;
 		$controller->$action();
 		
-		echo $controller->__invoke(false);
-			
+		echo $controller->__invoke();		
+		
 }
 
 unset($_SESSION['message']);

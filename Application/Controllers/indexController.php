@@ -6,7 +6,7 @@ class indexController extends BaseController
 	
 	public function index()
 	{
-
+		asd
 	}
 
 	

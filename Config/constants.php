@@ -20,6 +20,7 @@ define('FRAMEWORK_PATH',BASE_PATH.'/Laurel');
 // Application related constants
 //
 define('DEBUG_MODE',true);
+
 define('ENVIRONMENT','staging');
 define('CONTROLLER_PATH',APPLICATION_PATH.'/Controllers');
 define('VIEW_PATH',APPLICATION_PATH.'/Views');
@@ -27,7 +28,12 @@ define('TEMPLATE_PATH',APPLICATION_PATH.'/Views/Templates');
 define('HELPER_PATH',APPLICATION_PATH.'/Helpers');
 define('MODEL_PATH',APPLICATION_PATH.'/Models');
 
-
+//
+// Fatal errors, backtrace
+//
+define('INTERNAL_CONTROLLER','laurel');
+define('INTERNAL_ERROR_METHOD','internalError');
+define('INTERNAL_ERROR_TEMPLATE','master');
 
 //
 // Styles / behavior
@@ -47,7 +53,7 @@ define('ADMIN_TEMPLATE','admin');
 
 define('ERROR404_CONTROLLER','index');
 define('ERROR404_METHOD','error404');
-define('ERROR404_TEMPLATE','notfound');
+define('ERROR404_TEMPLATE','master');
 
 
 //
