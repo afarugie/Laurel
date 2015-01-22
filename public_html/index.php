@@ -101,7 +101,7 @@ try
 		//
 		if(DEBUG_MODE)
 		{
-			throw new RouteNotFound('No Route Matching '.$_SERVER['REQUEST_URI'].' Was Found.');
+			throw new RouteNotFound('No route matching "'.$_SERVER['REQUEST_URI'].'" was found.');
 		}
 		
 		header("HTTP/1.1 404 Not Found");
@@ -130,14 +130,18 @@ catch(Exception $e)
 		//
 		
 		$controller = INTERNAL_CONTROLLER.'Controller';
-		require_once CONTROLLER_PATH.'/'.$controller .'.php';
+		require_once CORE_PATH.'/Controllers/'.$controller .'.php';
 		
 		$controller = new $controller($view_registry,$layout_registry,$helper);
 		$controller->setView('laurel.internal');
 		$controller->setLayout(INTERNAL_ERROR_TEMPLATE);
 		
-		$controller->error = $e;
-		
+		$controller->error = $e->getMessage();
+		$controller->error_file = $e->getFile();
+		$controller->line = $e->getLine();
+		$controller->uncaught_exception = true;
+		$controller->backtrace = $e;
+
 		$action = INTERNAL_ERROR_METHOD;
 		$controller->$action();
 		

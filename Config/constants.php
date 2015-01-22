@@ -14,7 +14,7 @@ define('APPLICATION_PATH',BASE_PATH.'/Application');
 define('CACHE_PATH',BASE_PATH.'/Cache');
 define('LOG_PATH',BASE_PATH.'/Log');
 define('FRAMEWORK_PATH',BASE_PATH.'/Laurel');
-
+define('CORE_PATH',FRAMEWORK_PATH.'/Core');
 
 //
 // Application related constants

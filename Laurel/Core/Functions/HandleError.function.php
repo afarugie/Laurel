@@ -20,7 +20,7 @@ function handle_error($errorNumber, $message, $errfile, $errline,$stacktrace=fal
     $view_registry->set('laurel.error',VIEW_PATH.'/laurel/internal-error.php');
     
 	$controller = INTERNAL_CONTROLLER.'Controller';
-	require_once CONTROLLER_PATH.'/'.$controller .'.php';
+	require_once CORE_PATH.'/Controllers/'.$controller .'.php';
 	
 	$controller = new $controller($view_registry,$layout_registry,$helper);
 	
@@ -30,6 +30,7 @@ function handle_error($errorNumber, $message, $errfile, $errline,$stacktrace=fal
 	$controller->backtrace = debug_backtrace();
 	$controller->error_file = $errfile;
 	$controller->line = $errline;
+	$controller->uncaught_exception = false;
 
 	$action = INTERNAL_ERROR_METHOD;
 	$controller->$action();
@@ -39,17 +40,3 @@ function handle_error($errorNumber, $message, $errfile, $errline,$stacktrace=fal
 
         	
 }
-
-//
-// Fatal error handler
-//
-function fatalErrorShutdownHandler()
-{
-
-  $last_error = error_get_last();
-
-  if ($last_error['type'] === E_ERROR) {
-    handle_error(E_ERROR, $last_error['message'], $last_error['file'], $last_error['line']);
-  }
-}
-	

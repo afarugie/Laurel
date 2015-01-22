@@ -16,6 +16,12 @@ class TemplateRegistry
             $__FILE__ = $spec;
             $spec = function (array $__VARS__ = array()) use ($__FILE__) {
                 extract($__VARS__, EXTR_SKIP);
+                
+                if(!file_exists($__FILE__))
+                {
+	                throw new TemplateNotFound('Unable to load view: '.$__FILE__);
+                }
+                
                 require $__FILE__;
             };
         }
