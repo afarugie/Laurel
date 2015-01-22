@@ -1,0 +1,9 @@
+<phpunit bootstrap="bootstrap.php" backupGlobals="false">
+	
+  <testsuites>
+    <testsuite name="controllers">
+       <directory>unit/Controllers/*Test.php files</directory>
+    </testsuite>
+  </testsuites>
+
+</phpunit>

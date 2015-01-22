@@ -20,11 +20,11 @@ abstract class BaseController
         TemplateRegistry $layout_registry,
         $helpers = null
     ) {
-        $this->data = (object) array();
+        $this->data = array();
         $this->view_registry = $view_registry;
         $this->layout_registry = $layout_registry;
         if ($helpers && ! is_object($helpers)) {
-            throw new Exception\InvalidHelpersObject;
+            throw new InvalidHelpersObject;
         }
         $this->helpers = $helpers;
     }
@@ -97,7 +97,7 @@ abstract class BaseController
         return $this->layout_registry;
     }
 
-    public function setView(string $view)
+    public function setView($view)
     {
         $this->view = $view;
     }
@@ -177,7 +177,7 @@ abstract class BaseController
         return $this->render($layout);
     }
 
-    protected function render($name, array $vars = array())
+    protected function render($name,$vars = array())
     {
         ob_start();
         $this->getTemplate($name)->__invoke($vars);

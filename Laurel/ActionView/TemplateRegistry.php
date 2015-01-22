@@ -14,7 +14,7 @@ class TemplateRegistry
     {
         if (is_string($spec)) {
             $__FILE__ = $spec;
-            $spec = function (array $__VARS__ = array()) use ($__FILE__) {
+            $spec = function ($__VARS__ = array()) use ($__FILE__) {
                 extract($__VARS__, EXTR_SKIP);
                 
                 if(!file_exists($__FILE__))

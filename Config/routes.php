@@ -1,7 +1,7 @@
 <?php 
 
 
-$router->add('home','/')->addValues(
+$router->addGet('home','/')->addValues(
 	array(
 		'controller'=>'index',
 		'action'=>'index',
