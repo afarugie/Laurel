@@ -16,7 +16,11 @@
 require_once 'ActionDispatch/ActionDispatch.inc.php';
 require_once 'ActionController/ActionController.inc.php';
 require_once 'ActionView/ActionView.inc.php';
-require_once 'ActiveRecord/ActiveRecord.php';
+
+if(USE_ACTIVERECORD)
+{
+	require_once 'ActiveRecord/ActiveRecord.php';
+}
 
 require_once 'Core/Core.inc.php';
 

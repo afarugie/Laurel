@@ -18,7 +18,8 @@ define('CORE_PATH',FRAMEWORK_PATH.'/Core');
 //
 // Application related constants
 //
-define('DEV_MODE',true);
+define('DEV_MODE',true); // show uncaught errors / stacktraces, turn off for 404 page. Also prevents routes from being cached.
+define('USE_ACTIVERECORD',true); // load Laurels activerecord library ?
 
 define('ENVIRONMENT','staging');
 define('CONTROLLER_PATH',APPLICATION_PATH.'/Controllers');

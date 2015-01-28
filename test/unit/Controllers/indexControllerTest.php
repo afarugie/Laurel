@@ -16,14 +16,16 @@ class indexControllerTest extends PHPUnit_Framework_TestCase
 		
 		$this->controller = new indexController($this->view_registry,$this->layout_registry,$this->helper);
 
+
 	}	
+	
 	
 	//
 	// indexController -> index() action test
 	//
 	public function testIndexAction()
 	{
-		
+
 		//the home page URL - simulate get request
 		$route = $this->router->match('/',['REQUEST_METHOD'=>'GET']);
 		

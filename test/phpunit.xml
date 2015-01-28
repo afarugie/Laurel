@@ -1,7 +1,8 @@
 <phpunit bootstrap="bootstrap.php" backupGlobals="false">
 	
   <testsuites>
-    <testsuite name="controllers">
+    <testsuite name="Controllers">
+	    <file>unit/Controllers/indexControllerTest.php</file>
        <directory>unit/Controllers/*Test.php files</directory>
     </testsuite>
   </testsuites>

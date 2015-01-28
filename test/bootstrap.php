@@ -15,7 +15,9 @@
 	//
 	
 	require_once '../Config/config.inc.php';
+	
 	require_once FRAMEWORK_PATH.'/Framework.php';
+	require_once CONFIG_PATH.'/routes.php';
 	require_once CONFIG_PATH.'/database.php';
 	
 	require_once 'traits.php';

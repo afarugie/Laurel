@@ -1,18 +1,13 @@
 <?php 
 
-$router->setNamespace('index',false,function($router){
-
-	$router->addGet('home','/')->addValues(
-		array(
-			'action'=>'index',
-			'template'=>'master',
-			'format'=>'html'
-		)
-	);
-
-},['directory'=>false]);
-
-
+$router->addGet('home','/')->addValues(
+	array(
+		'controller'=>'index',
+		'action'=>'index',
+		'template'=>'master',
+		'format'=>'html'
+	)
+);
 
 
 
