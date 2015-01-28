@@ -145,6 +145,36 @@ class RouteCollection extends AbstractSpec implements ArrayAccess,Countable,Iter
 		}
 	}
 	
+	public function setNamespace($name, $path, $callable, $opts=array() )
+	{
+		$spec = $this->getSpec();
+
+		if ($this->name_prefix && $path) 
+		{
+			$this->name_prefix .= '.';
+		}
+				
+		$this->addValues(array(
+			'directory'=>$name,
+			'controller'=>$name
+		));
+		
+		$this->addValues($opts);
+		
+		if($path)
+		{
+			$this->name_prefix .= $name;
+		
+			// append to the path prefix
+			$this->path_prefix .= $path;			
+		}
+		
+		call_user_func($callable, $this);
+		
+		$this->setSpec($spec);
+		
+	}
+	
 	public function attach($name, $path, $callable)
 	{
 		// save current spec

@@ -16,7 +16,32 @@ try
 	require_once FRAMEWORK_PATH.'/Framework.php';
 	require_once CONFIG_PATH.'/database.php';
 	//require_once CONFIG_PATH.'/session.php';
+	
+	//
+	// If debug mode is off ( production ) cache routes
+	//
+	if(!DEV_MODE)
+	{
+		$routeCache = CACHE_PATH.'/routes.cache';
 
+		if(file_exists($routeCache))
+		{
+			$routes = unserialize(file_get_contents($routeCache));
+			$router->setRoutes($routes);			
+		}
+		else
+		{
+			require_once CONFIG_PATH.'/routes.php';
+			$routes = $router->getRoutes();
+			file_put_contents($routeCache, serialize($routes));			
+		}
+	}
+	else
+	{
+		require_once CONFIG_PATH.'/routes.php';
+	}
+	
+	
 	//
 	// Parse the request: index.php/some/request
 	// Match it to routes stored in the router.
@@ -25,6 +50,7 @@ try
 	$_SERVER['REQUEST_URI'] = (substr($_SERVER['REQUEST_URI'],-1) == '/' && strlen($_SERVER['REQUEST_URI']) > 1) ? substr($_SERVER['REQUEST_URI'],0,-1) : $_SERVER['REQUEST_URI'];
 	$path = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 	$route = $router->match($path, $_SERVER);
+	
 	
 		
 	//
@@ -38,27 +64,22 @@ try
 		
 		$controllerName = $route->params['controller'];
 		$actionName = $route->params['action'];
-			
+		
+		//
+		// Generate the required file name and instantiate the class
+		//
+		$dir = isset($route->params['directory']) && $route->params['directory'] ? $route->params['directory'].'/' : '';
+
+
 		//
 		// Register a default view ( laurel.default )
 		// this view follows the assigned view directory / controllerPrefix / actionName.hh
 		//
 		$viewName = $controllerName.'/'.$actionName.'.php';
-		$view_registry->set('laurel.default',VIEW_PATH.'/'.$viewName);
+		$view_registry->set('laurel.default',VIEW_PATH.'/'.$dir.$viewName);
 		
-		//
-		// Generate the required file name and instantiate the class
-		//
-		$dir = isset($route->params['directory']) ? $route->params['directory'].'/' : '';
-		if(isset($route->params['directory']) && $route->params['directory'] == 'admin')
-		{
-			$template = ADMIN_TEMPLATE;
-		}
-		else
-		{
-			$template = DEFAULT_TEMPLATE;
-		}
 		
+				
 		require_once CONTROLLER_PATH.'/'.$dir.$controllerName.'Controller.php';
 		$controllerName .='Controller';
 	
@@ -76,7 +97,7 @@ try
 		//
 		// Unless specified in the routes, use the default template specified in DEFAULT_TEMPLATE
 		//
-		$controller->setLayout(isset($route->params['template']) ? $route->params['template'] : $template);
+		$controller->setLayout(isset($route->params['template']) ? $route->params['template'] : DEFAULT_TEMPLATE);
 		
 	
 		//
@@ -99,7 +120,7 @@ try
 		//
 		// Throw internal error for testing purposes
 		//
-		if(DEBUG_MODE)
+		if(DEV_MODE)
 		{
 			throw new RouteNotFound('No route matching "'.$_SERVER['REQUEST_URI'].'" was found.');
 		}
@@ -126,9 +147,9 @@ try
 catch(Exception $e)
 {	
 		//
-		// INTERNAL SERVER ERROR
+		// UNCAUGHT EXCEPTIONS - INTERNAL SERVER ERROR
 		//
-		
+
 		$controller = INTERNAL_CONTROLLER.'Controller';
 		require_once CORE_PATH.'/Controllers/'.$controller .'.php';
 		
